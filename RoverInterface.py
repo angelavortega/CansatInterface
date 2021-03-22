@@ -1,6 +1,6 @@
 import matplotlib
-import time
 from data.roverData import roverData
+import time
 
 
 class mainInterface():
@@ -8,14 +8,14 @@ class mainInterface():
     def __init__(self):
         
         self.roverData = roverData()
-    
+
     def readData(self):
         datos = self.roverData.actData()
         return datos
 
 
 if __name__ == "__main__":
-    mainInterface = mainInterface
+    mainInterface = mainInterface()
     while True:
         datos = mainInterface.readData()
         print(datos)

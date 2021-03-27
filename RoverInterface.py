@@ -5,7 +5,9 @@ import numpy
 from matplotlib.pylab import *
 import matplotlib.pyplot as plt
 from mpl_toolkits.axes_grid1 import host_subplot
+from mpl_toolkits import mplot3d
 import matplotlib.animation as animation
+from mpl_toolkits import mplot3d
 
 class mainInterface():
 
@@ -33,11 +35,12 @@ if __name__ == "__main__":
 
     # Setup figure and subplots
     # Setup figure and subplots
-    f0 = figure(num = 0, figsize = (12, 8))#, dpi = 100)
+    f0 = plt.figure(num = 0, figsize = (12, 8))#, dpi = 100)
     f0.suptitle("Testing", fontsize=12)
-    ax01 = subplot2grid((2, 2), (0, 0))
-    ax02 = subplot2grid((2, 2), (0, 1))
-    ax03 = subplot2grid((2, 2), (1, 0))
+    ax01 = f0.add_subplot(221)
+    ax02 = f0.add_subplot(222)
+    ax03 = f0.add_subplot(223)
+    ax04 = f0.add_subplot(224, projection='3d')
 
     # Set titles of subplots
     ax01.set_title('B vs Time')
@@ -105,7 +108,7 @@ if __name__ == "__main__":
             p021.axes.set_xlim(x-xmax+1.0,x+1.0)
             p031.axes.set_xlim(x-xmax+1.0,x+1.0)
 
-        return p011, p021
+        return p011, p021, p031
 
     
         

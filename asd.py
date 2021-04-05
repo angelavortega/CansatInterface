@@ -64,28 +64,59 @@ R = Rz(psi) * Ry(theta) * Rx(phi)
 fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
 
-cube = np.array([[-1, -1, -1], [1, -1, -1], [-1, 1, -1], [1, 1, -1]])
+face = np.array([[-2, -2, -2], [2, -2, -2], [-2, -2, 2], [2, -2, 2]])
 
-#x = cube[:,0].reshape((2, 2))
+#x = face[:,0].reshape((2, 2))
 """
-cube[0,:] = cube[0,:]*R
-cube[1,:] = cube[1,:]*R
-cube[2,:] = cube[2,:]*R
-cube[3,:] = cube[3,:]*R
+face[0,:] = face[0,:]*R
+face[1,:] = face[1,:]*R
+face[2,:] = face[2,:]*R
+face[3,:] = face[3,:]*R
 """
-#print(cube[1,:])
-cube = cube*R
-#print(cube)
+#print(face[1,:])
+face = face*R
+#print(face)
 
-X_R = cube[:,0].reshape((2, 2))
-Y_R = cube[:,1].reshape((2, 2))
-Z_R = cube[:,2].reshape((2, 2))
+X_R = face[:,0].reshape((2, 2))
+Y_R = face[:,1].reshape((2, 2))
+Z_R = face[:,2].reshape((2, 2))
+
+face2 = face[[2,3],:]
+face2 = np.vstack((face2, face2*.5))
+X_R2 = face2[:,0].reshape((2, 2))
+Y_R2 = face2[:,1].reshape((2, 2))
+Z_R2 = face2[:,2].reshape((2, 2))
+
+face3 = face[[0,2],:]
+face3 = np.vstack((face3, face3*.5))
+X_R3 = face3[:,0].reshape((2, 2))
+Y_R3 = face3[:,1].reshape((2, 2))
+Z_R3 = face3[:,2].reshape((2, 2))
+
+face4 = face[[0,1],:]
+face4 = np.vstack((face4, face4*.5))
+X_R4 = face4[:,0].reshape((2, 2))
+Y_R4 = face4[:,1].reshape((2, 2))
+Z_R4 = face4[:,2].reshape((2, 2))
+
+face5 = face[[1,3],:]
+face5 = np.vstack((face5, face5*.5))
+X_R5 = face5[:,0].reshape((2, 2))
+Y_R5 = face5[:,1].reshape((2, 2))
+Z_R5 = face5[:,2].reshape((2, 2))
 
 #ax.plot_surface(X_R,Y_R,-Z_R, color="red", alpha=0.5)
 #ax.plot_surface(X_R,Y_R,Z_R, color="red", alpha=0.5)
-ax.plot_surface(X_R,Z_R,Y_R, color="green", alpha=.5)
-ax.plot_surface(X_R*-2,Z_R*-2,Y_R*-2, color="red", alpha=.5)
-#ax.view_init(elev = 60, azim=30)
+ax.plot_surface(X_R*.5,Y_R*.5,Z_R*.5, color="green", alpha=.7)
+ax.plot_surface(X_R,Y_R,Z_R, color="red", alpha=.5)
+ax.plot_surface(X_R2,Y_R2,Z_R2, color="red", alpha=.5)
+ax.plot_surface(X_R3,Y_R3,Z_R3, color="red", alpha=.5)
+ax.plot_surface(X_R4,Y_R4,Z_R4, color="red", alpha=.5)
+ax.plot_surface(X_R5,Y_R5,Z_R5, color="red", alpha=.5)
+ax.view_init(elev = 20, azim=130)
+ax.set_ylim(-2.5,2.5)
+ax.set_xlim(-2.5,2.5)
+ax.set_zlim(-2.5,2.5)
 #ax.plot_surface(X_R,-Z_R,Y_R, color="red", alpha=0.5)
 #ax.plot_surface(-Z_R,X_R,Y_R, color="red", alpha=0.5)
 #ax.plot_surface(Z_R,X_R,Y_R, color="red", alpha=0.5)

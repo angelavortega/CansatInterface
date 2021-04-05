@@ -25,10 +25,35 @@ class mainInterface():
 # Initialize communication
 mainInterface = mainInterface()
 
-cube = np.array([[-1, -1, -1], [1, -1, -1], [-1, 1, -1], [1, 1, -1]])
-X_R = cube[:,0].reshape((2, 2))
-Y_R = cube[:,1].reshape((2, 2))
-Z_R = cube[:,2].reshape((2, 2))
+face = np.array([[-2, -2, -2], [2, -2, -2], [-2, -2, 2], [2, -2, 2]])
+X_R = face[:,0].reshape((2, 2))
+Y_R = face[:,1].reshape((2, 2))
+Z_R = face[:,2].reshape((2, 2))
+
+face2 = face[[2,3],:]
+face2 = np.vstack((face2, face2*.5))
+X_R2 = face2[:,0].reshape((2, 2))
+Y_R2 = face2[:,1].reshape((2, 2))
+Z_R2 = face2[:,2].reshape((2, 2))
+
+face3 = face[[0,2],:]
+face3 = np.vstack((face3, face3*.5))
+X_R3 = face3[:,0].reshape((2, 2))
+Y_R3 = face3[:,1].reshape((2, 2))
+Z_R3 = face3[:,2].reshape((2, 2))
+
+face4 = face[[0,1],:]
+face4 = np.vstack((face4, face4*.5))
+X_R4 = face4[:,0].reshape((2, 2))
+Y_R4 = face4[:,1].reshape((2, 2))
+Z_R4 = face4[:,2].reshape((2, 2))
+
+face5 = face[[1,3],:]
+face5 = np.vstack((face5, face5*.5))
+X_R5 = face5[:,0].reshape((2, 2))
+Y_R5 = face5[:,1].reshape((2, 2))
+Z_R5 = face5[:,2].reshape((2, 2))
+
 # # Sent for figure
 # font = {'size'   : 9}
 # matplotlib.rc('font', **font)
@@ -88,9 +113,13 @@ t=zeros(0)
 p011, = ax01.plot(yp1,t,'b-', label="yp1")
 p021, = ax02.plot(yv1,t,'g-', label="yv1")
 p031, = ax03.plot(yv2,t,'r-', label="yv2")
-ax04.plot_surface(X_R,Z_R,Y_R, color="green", alpha=0.5)
-ax04.plot_surface(X_R*-2,Z_R*-2,Y_R*-2, color="red", alpha=0.5)
-ax04.view_init(elev = 30, azim=-60)
+ax04.plot_surface(X_R*.5,Y_R*.5,Z_R*.5, color="green", alpha=.7)
+ax04.plot_surface(X_R,Y_R,Z_R, color="red", alpha=.5)
+ax04.plot_surface(X_R2,Y_R2,Z_R2, color="red", alpha=.5)
+ax04.plot_surface(X_R3,Y_R3,Z_R3, color="red", alpha=.5)
+ax04.plot_surface(X_R4,Y_R4,Z_R4, color="red", alpha=.5)
+ax04.plot_surface(X_R5,Y_R5,Z_R5, color="red", alpha=.5)
+ax04.view_init(elev = 20, azim=130)
 
 # Data Update
 xmin = 0.0
@@ -131,11 +160,35 @@ def updateData(self):
     psi = np.radians(datos[6])
     R = Rz(psi) * Ry(theta) * Rx(phi)
 
-    cube = np.array([[-1, -1, -1], [1, -1, -1], [-1, 1, -1], [1, 1, -1]])
-    cube = cube*R
-    X_R = cube[:,0].reshape((2, 2))
-    Y_R = cube[:,1].reshape((2, 2))
-    Z_R = cube[:,2].reshape((2, 2))
+    face = np.array([[-2, -2, -2], [2, -2, -2], [-2, -2, 2], [2, -2, 2]])
+    face = face*R
+    X_R = face[:,0].reshape((2, 2))
+    Y_R = face[:,1].reshape((2, 2))
+    Z_R = face[:,2].reshape((2, 2))
+
+    face2 = face[[2,3],:]
+    face2 = np.vstack((face2, face2*.5))
+    X_R2 = face2[:,0].reshape((2, 2))
+    Y_R2 = face2[:,1].reshape((2, 2))
+    Z_R2 = face2[:,2].reshape((2, 2))
+
+    face3 = face[[0,2],:]
+    face3 = np.vstack((face3, face3*.5))
+    X_R3 = face3[:,0].reshape((2, 2))
+    Y_R3 = face3[:,1].reshape((2, 2))
+    Z_R3 = face3[:,2].reshape((2, 2))
+
+    face4 = face[[0,1],:]
+    face4 = np.vstack((face4, face4*.5))
+    X_R4 = face4[:,0].reshape((2, 2))
+    Y_R4 = face4[:,1].reshape((2, 2))
+    Z_R4 = face4[:,2].reshape((2, 2))
+
+    face5 = face[[1,3],:]
+    face5 = np.vstack((face5, face5*.5))
+    X_R5 = face5[:,0].reshape((2, 2))
+    Y_R5 = face5[:,1].reshape((2, 2))
+    Z_R5 = face5[:,2].reshape((2, 2))
 
     yp1=append(yp1,datos[1])
     yv1=append(yv1,datos[2])
@@ -155,8 +208,16 @@ def updateData(self):
     ax04.set_xlabel("X")
     ax04.set_ylabel("Y")
     ax04.set_zlabel("Z")
-    ax04.plot_surface(X_R,Z_R,Y_R, color="green", alpha=0.5)
-    ax04.plot_surface(X_R*-2,Z_R*-2,Y_R*-2, color="red", alpha=0.5)
+    ax04.plot_surface(X_R*.5,Y_R*.5,Z_R*.5, color="blue", alpha=.7)
+    ax04.plot_surface(X_R,Y_R,Z_R, color="yellow", alpha=.5)
+    ax04.plot_surface(X_R2,Y_R2,Z_R2, color="yellow", alpha=.3)
+    ax04.plot_surface(X_R3,Y_R3,Z_R3, color="yellow", alpha=.3)
+    ax04.plot_surface(X_R4,Y_R4,Z_R4, color="yellow", alpha=.3)
+    ax04.plot_surface(X_R5,Y_R5,Z_R5, color="yellow", alpha=.3)
+
+    ax04.set_ylim(-2.5,2.5)
+    ax04.set_xlim(-2.5,2.5)
+    ax04.set_zlim(-2.5,2.5)
     
     if x >= xmax-1.00:
         p011.axes.set_xlim(x-xmax+1.0,x+1.0)

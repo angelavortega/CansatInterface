@@ -2,11 +2,11 @@
 import time
 import random
 
+
 class roverData():
     
     def __init__(self):
-        self.n=0
-
+        self.n = 0
     
     def actData(self):
 

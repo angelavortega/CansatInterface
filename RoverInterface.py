@@ -10,6 +10,7 @@ import numpy as np
 import math as m
 import random
 
+frequency = 1000 # code frequency in ml seconds
 
 class mainInterface():
 
@@ -19,26 +20,12 @@ class mainInterface():
         self.n = 0
 
     def readData(self):
+        data = self.roverData.actData()
         A = self.n
         self.n += 1  
-        B = random.randint(20, 30) # Temperature
-        C = random.randint(900, 1060) # Pressure
-        D = random.randint(0, 100) # Altitude
-        E = random.randint(60, 80) # Humidity
-        F = random.randint(-20, 20) # Latitude
-        G = random.randint(-20, 20) # Longitude
-        H = random.randint(-90, 90) # ax
-        I = random.randint(-90, 90) # ay
-        J = random.randint(-90, 90) # az
-        K = random.randint(-90, 90) # wx
-        L = random.randint(-90, 90) # wy
-        M = random.randint(-90, 90) # wz
-        N = random.randint(-90, 90) # mx
-        O = random.randint(-90, 90) # my
-        P = random.randint(-90, 90) # mz
-        datos = {'Time': A, 'Temperature': B, 'Pressure': C, 'Altitude': D, 'Humidity': E, \
-                    'Latitude': F, 'Longitude': G, 'ax': H, 'ay': I, 'az': J, 'wx': K,\
-                    'wy': L, 'wz': M, 'mx': N, 'my': O, 'mz': P}    
+        B, C, D, E, F, G, H, I = data
+        datos = {'Time': A, 'Temperature': B, 'Pressure': C, 'Altitude': D,\
+                    'Latitude': E, 'Longitude': F, 'Roll': G, 'Pitch': H, 'Yaw': I}    
         return datos
   
 
@@ -80,14 +67,12 @@ ax02.grid(True)
 # Data Placeholders
 yp11 = zeros(0) # Temperature
 yp12 = zeros(0) # Altitude
-yp13 = zeros(0) # Humidity
 yp21 = zeros(0) # Pressure
 t = zeros(0)
 
 # set plots
 p011, = ax01.plot(yp11, t, 'red', label="Temperature: ºC")
 p012, = ax01.plot(yp12, t, color="blue", label="Altitude: meters")
-p013, = ax01.plot(yp13, t, color="green", label="Huidity: %")
 p021, = ax02.plot(yp21, t, 'green', label="Pressure: hPa")
 
 ax04.view_init(elev=20, azim=130)
@@ -99,7 +84,7 @@ xmax = 20.0
 x = 0.0
 
 # Map Position
-map_range = 20
+map_range = 100
 x_initial = 0 #datos.get('Latitude')
 y_initial = 0 #datos.get('Longitude')
 x_llim = 0
@@ -137,9 +122,9 @@ def updateData(self):
 
     datos = mainInterface.readData()
 
-    phi = np.radians(datos.get('ax'))
-    theta = np.radians(datos.get('ay'))
-    psi = np.radians(datos.get('az'))
+    phi = np.radians(datos.get('Roll'))
+    theta = np.radians(datos.get('Pitch'))
+    psi = np.radians(datos.get('Yaw'))
     R = Rz(psi) * Ry(theta) * Rx(phi)
 
     face = np.array([[-2, -2, -2], [2, -2, -2], [-2, -2, 2], [2, -2, 2]])
@@ -174,7 +159,6 @@ def updateData(self):
 
     yp11 = append(yp11, datos.get('Temperature'))
     yp12 = append(yp12, datos.get('Altitude'))
-    yp13 = append(yp13, datos.get('Humidity'))
     yp21 = append(yp21, datos.get('Pressure'))
     t = append(t, x)
 
@@ -182,7 +166,6 @@ def updateData(self):
 
     p011.set_data(t, yp11)
     p012.set_data(t, yp12)
-    p013.set_data(t, yp13)
     ax01.legend()
     p021.set_data(t, yp21)
     ax02.legend()
@@ -215,8 +198,8 @@ def updateData(self):
     ax04.set_ylabel("Y")
     ax04.set_zlabel("Z")
     ax04.plot_surface(X_R * .5, Y_R * .5, Z_R * .5, color="blue", alpha=.7)
-    ax04.plot_surface(X_R, Y_R, Z_R, color="yellow", alpha=.5)
-    ax04.plot_surface(X_R2, Y_R2, Z_R2, color="yellow", alpha=.3)
+    ax04.plot_surface(X_R, Y_R, Z_R, color="yellow", alpha=.3)
+    ax04.plot_surface(X_R2, Y_R2, Z_R2, color="green", alpha=.7)
     ax04.plot_surface(X_R3, Y_R3, Z_R3, color="yellow", alpha=.3)
     ax04.plot_surface(X_R4, Y_R4, Z_R4, color="yellow", alpha=.3)
     ax04.plot_surface(X_R5, Y_R5, Z_R5, color="yellow", alpha=.3)
@@ -230,9 +213,8 @@ def updateData(self):
         p021.axes.set_xlim(x - xmax + 1.0, x + 1.0)
 
     return p011, p021
-    
 
-simulation = animation.FuncAnimation(f0, updateData, blit=False, interval=1000, repeat=False)
+simulation = animation.FuncAnimation(f0, updateData, blit=False, interval=frequency, repeat=False)
 plt.show()
 
 #    ani = animation.FuncAnimation(fig, animate, fargs=(xs, ys), interval=1000)

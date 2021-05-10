@@ -10,6 +10,7 @@ class roverData():
     
     def __init__(self):
         self.ser = serial.Serial(serial_port, baud_rate) # Serial COM with arduino
+        self.letters = ['B', 'C', 'D', 'E', 'F', 'G', 'H']
     
     def rcv_data(self):
         def rad_data():
@@ -17,12 +18,14 @@ class roverData():
             string_n = b.decode()		 # decode byte string into Unicode	
             string = string_n.rstrip()
             return string
+        initiate = False
         if not self.ser.isOpen(): self.ser.open()
         while(True):
             string = rad_data() 	 
             if string[0] == 'A':
                 dict_data = [float(string[1:])]
-            else:
+                initiate = True
+            elif string[0] in self.letters and initiate:
                 dict_data.append(float(string[1:]))
             if len(dict_data) == 8:
                 self.ser.close()

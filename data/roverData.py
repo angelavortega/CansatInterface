@@ -12,7 +12,7 @@ class roverData():
         self.ser = serial.Serial(serial_port, baud_rate) # Serial COM with arduino
     
     def rcv_data(self):
-        def rad_data(self):
+        def rad_data():
             b = self.ser.readline()			 # read a byte string 
             string_n = b.decode()		 # decode byte string into Unicode	
             string = string_n.rstrip()

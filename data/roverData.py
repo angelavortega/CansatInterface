@@ -19,17 +19,22 @@ class roverData():
             string = string_n.rstrip()
             return string
         initiate = False
+        dict_data = []
         if not self.ser.isOpen(): self.ser.open()
         while(True):
-            string = rad_data() 	 
-            if string[0] == 'A':
-                dict_data = [float(string[1:])]
-                initiate = True
-            elif string[0] in self.letters and initiate:
-                dict_data.append(float(string[1:]))
-            if len(dict_data) == 8:
-                self.ser.close()
-                return dict_data
+            string = rad_data()
+            try: 
+                if string[0] == 'A':
+                    dict_data = [float(string[1:])]
+                    initiate = True
+                elif string[0] in self.letters and initiate:
+                    dict_data.append(float(string[1:]))
+                if len(dict_data) == 8:
+                    self.ser.close()
+                    return dict_data
+            except:
+                initiate = False
+                dict_data = []
 
     def actData(self):
         """

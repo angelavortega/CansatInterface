@@ -10,7 +10,8 @@ import numpy as np
 import math as m
 import random
 
-frequency = 1000 # code frequency in ml seconds
+frequency = 100 # code frequency in ml seconds
+
 
 class mainInterface():
 
@@ -213,6 +214,7 @@ def updateData(self):
         p021.axes.set_xlim(x - xmax + 1.0, x + 1.0)
 
     return p011, p021
+
 
 simulation = animation.FuncAnimation(f0, updateData, blit=False, interval=frequency, repeat=False)
 plt.show()

@@ -23,11 +23,13 @@ class roverData():
             string = rad_data()
             if string[0] == "A":
                 data = string[1:]
-                for i in range(0, 7):
-                   string = rad_data()
-                   data = data + string[1:]
-                self.ser.close()
-                return data
+                for i in range(0, 10):
+                    string = rad_data()
+                    data = data + string[1:]
+                    if string[0] == "H":
+                        data = data[0:-1]
+                        self.ser.close()
+                        return data
 
     def actData(self):
         """
@@ -43,13 +45,10 @@ class roverData():
         while True:
             try:
                 data = self.rcv_data()
-                data = data.split(",")
+                data = data.split(";")
                 i = 0
                 for value in data:
-                    try:
-                        data[i] = float(value)
-                    except:
-                        print('')
+                    data[i] = float(value)
                     i += 1
                 return data
             except:

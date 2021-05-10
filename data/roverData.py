@@ -10,8 +10,6 @@ class roverData():
     
     def __init__(self):
         self.ser = serial.Serial(serial_port, baud_rate) # Serial COM with arduino
-        self.letters = ['B', 'C', 'D', 'E', 'F', 'G', 'H']
-        pass
     
     def rcv_data(self):
         def rad_data(self):
@@ -20,18 +18,15 @@ class roverData():
             string = string_n.rstrip()
             return string
         if not self.ser.isOpen(): self.ser.open()
-        while True:
-            string = rad_data()
-            if string[0] == "A":
-                data = string[1:]
-                while True:
-                    string = rad_data()
-                    if string[0] in self.letters:
-                        data = data + string[1:]
-                        if string[0] == 'H':
-                            data = data[0:-1]
-                            self.ser.close()
-                            return data
+        while(True):
+            string = rad_data() 	 
+            if string[0] == 'A':
+                dict_data = [float(string[1:])]
+            else:
+                dict_data.append(float(string[1:]))
+            if len(dict_data) == 8:
+                self.ser.close()
+                return dict_data
 
     def actData(self):
         """
@@ -45,14 +40,5 @@ class roverData():
         H = random.randint(-90, 90) # Yaw
         """
         while True:
-            try:
-                data = self.rcv_data()
-                data = data.split(";")
-                i = 0
-                for value in data:
-                    data[i] = float(value)
-                    i += 1
-                return data
-            except:
-                continue
-    
+            data = self.rcv_data()
+            return data

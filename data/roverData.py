@@ -19,11 +19,11 @@ class roverData():
             string = string_n.rstrip()
             return string
         if not self.ser.isOpen(): self.ser.open()
-        while(True):
+        while True:
             string = rad_data()
             if string[0] == "A":
                 data = string[1:]
-                for i in range(0, 10):
+                while True:
                     string = rad_data()
                     data = data + string[1:]
                     if string[0] == "H":
